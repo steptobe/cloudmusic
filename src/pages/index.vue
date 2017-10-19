@@ -26,7 +26,7 @@
         <mt-swipe :auto="4000">
             <mt-swipe-item v-for="item in banners" :key="item.encodeId">
                 <a href="javascript:;">
-                    <img :src="item.pic" :alt="item.pic">
+                    <img :src="getImgPath(item.pic)" :alt="item.pic">
                 </a>
             </mt-swipe-item>
         </mt-swipe>
@@ -55,7 +55,7 @@
             </ul>
         </div>
         <!-- 最新音乐 -->
-        <div>
+        <div class="recommend recommend-song">
             <mt-cell
                 title="最新音乐"
                 to=""
@@ -63,10 +63,11 @@
                 value="">
                 </mt-cell>
             <ul class="clearfix">
-                <li v-for="item in recommendSong">
+                <li v-for="item in newSong">
                     <router-link to="">
-                        <img :src="item.picUrl" alt="">
-                        <p>{{item.name}}</p>
+                        <img :src="getImgPath(item.picUrl)" alt="">
+                        <h5>{{item.name}}</h5>
+                        <p>{{item.song.artists[0].name}}</p>
                     </router-link>
                 </li>
             </ul>
@@ -90,11 +91,13 @@ export default {
       msg: "Welcome to Your Vue.js App",
       banners: "",//轮播图
       recommendSong: '',//推荐歌单
+      newSong:''
     };
   },
   created() {
     this.getbanner();
     this.getRecommendSong();
+    this.getNewSong();
   },
   methods: {
     callback(res) {
@@ -102,7 +105,9 @@ export default {
     },
     callback1(res) {
       this.recommendSong = res.result;
-      console.log(this.recommendSong)
+    },
+    callback2(res) {
+      this.newSong = res.result.slice(0,6);
     },
     getbanner() {
       var self = this;
@@ -114,10 +119,14 @@ export default {
     getRecommendSong(){
         var self = this;
         self.getData("/personalized", this.callback1);
-    }
+    },
 
     //最新歌曲
 
+    getNewSong(){
+       var self = this;
+        self.getData("/personalized/newsong", this.callback2);
+    }
   }
 };
 </script>
@@ -194,7 +203,14 @@ export default {
     }
   //推荐歌单
   .recommend {
-    
+    &.recommend-song{
+        h5{
+            @include lh(0.6rem);
+        }
+        p{
+             @include lh(0.6rem);  
+        }
+    }
     ul{
         width: 100vw;
        padding: 0 .266667rem /* 20/75 */;
@@ -202,6 +218,7 @@ export default {
     li{
         width: calc((100% - 1.066667rem /* 80/75 */)/3);
         float: left;
+        margin-bottom: 10px;
         img{
             width: 100%;
         }

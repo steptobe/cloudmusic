@@ -1,7 +1,7 @@
 var MyPlugin = {
     // 自定义全局插件
     install(Vue, options) {
-        //全局获取数据函数
+        // 全局获取数据函数
         Vue.prototype.getData = (url, callback) => {
 
                 Vue.http.get('http://localhost:3000' + url).then(res => {
@@ -11,10 +11,9 @@ var MyPlugin = {
                     } else {
                         alert('错误')
                     }
-
                 })
             },
-            //响应式
+            // 响应式
             Vue.prototype.initRem = () => {
                 new function() {
                     var _self = this
@@ -22,7 +21,7 @@ var MyPlugin = {
                     _self.fontSize = 75; // 默认字体大小
                     _self.changePage = function() {
                         var width = document.documentElement.getBoundingClientRect().width
-                        var p = width / _self.width;
+                        var p = width / _self.width
                         document
                             .getElementsByTagName('html')[0]
                             .setAttribute('style', 'font-size:' + p * _self.fontSize + 'px !important')
@@ -32,6 +31,19 @@ var MyPlugin = {
                         _self.changePage()
                     }, false)
                 }
+            },
+            Vue.prototype.getImgPath = (path) => {
+                let suffix
+                if (path == undefined) {
+                    return 'http://test.fe.ptdev.cn/elm/elmlogo.jpeg'
+                }
+                if (path.indexOf('jpeg') !== -1) {
+                    suffix = '.jpeg'
+                } else {
+                    suffix = '.png'
+                }
+                let url = '/' + path.substr(0, 1) + '/' + path.substr(1, 2) + '/' + path.substr(3) + suffix
+                return path
             }
     }
 }
