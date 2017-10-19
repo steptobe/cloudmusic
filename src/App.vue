@@ -15,7 +15,8 @@ export default {
 </script>
 
 <style>
-@import './assets/sass/mixin.scss';
+@import './assets/sass/style.scss';
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -6,8 +6,8 @@ import router from './router'
 import VueResource from 'vue-resource'
 import MyPlugin from './config/config.js'
 import 'mint-ui/lib/style.css'
-// import './assets/sass/mixin.scss'
-import './assets/sass/style.scss'
+// import './assets/sass/style.scss'
+import './assets/sass/base.css'
 import Mint from 'mint-ui';
 import './assets/font/iconfont.css';
 //import Icon from './components/icon.vue'

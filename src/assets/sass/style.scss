@@ -1,16 +1,11 @@
-body {
-    margin: 0;
-    color: #333;
+@import 'mixin.scss';
+.tab {
+    .active a {
+        color: $main;
+    }
 }
 
-a {
-    text-decoration: none;
-    display: block;
-}
-
-h1 {
-    font-size: .533333rem/* 40/75 */
-    ;
-    margin: 0;
-    font-weight: normal;
+.flex {
+    display: flex;
+    justify-content: space-around;
 }
