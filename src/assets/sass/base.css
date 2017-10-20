@@ -3,6 +3,7 @@ body {
     color: #333;
     font-size: .373333rem/* 28/75 */
     ;
+    overflow-x: hidden;
 }
 
 * {
@@ -30,6 +31,7 @@ ol {
 img {
     vertical-align: middle;
     outline: none;
+    width: 100%;
 }
 
 input,

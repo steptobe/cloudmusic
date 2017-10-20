@@ -32,6 +32,7 @@ var MyPlugin = {
                     }, false)
                 }
             },
+            //图片测试
             Vue.prototype.getImgPath = (path) => {
                 let suffix
                 if (path == undefined) {

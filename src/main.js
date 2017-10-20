@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
 import MyPlugin from './config/config.js'
+import MyComponent from './config/component.js'
 import 'mint-ui/lib/style.css'
 // import './assets/sass/style.scss'
 import './assets/sass/base.css'
@@ -19,6 +20,7 @@ Vue.config.productionTip = false
 
 Vue.use(VueResource)
 Vue.use(MyPlugin)
+Vue.use(MyComponent)
 Vue.use(Mint)
     // Vue.use(MyPlugin)
 
