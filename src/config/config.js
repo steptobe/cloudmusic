@@ -2,9 +2,9 @@ var MyPlugin = {
     // 自定义全局插件
     install(Vue, options) {
         // 全局获取数据函数
-        Vue.prototype.getData = (url, callback) => {
+        Vue.prototype.getData = (url, callback, param) => {
 
-                Vue.http.get('http://localhost:3000' + url).then(res => {
+                Vue.http.get('http://localhost:3000' + url, { params: param }).then(res => {
                     if (res.body.code == 200) {
                         if (typeof callback == 'function')
                             callback(res.body)
@@ -32,7 +32,7 @@ var MyPlugin = {
                     }, false)
                 }
             },
-            //图片测试
+            // 图片测试
             Vue.prototype.getImgPath = (path) => {
                 let suffix
                 if (path == undefined) {
@@ -45,6 +45,25 @@ var MyPlugin = {
                 }
                 let url = '/' + path.substr(0, 1) + '/' + path.substr(1, 2) + '/' + path.substr(3) + suffix
                 return path
+            },
+            Vue.prototype.getCookie = (id) => {
+                if (document.cookie.length > 0) {
+                    let c_start = document.cookie.indexOf(id + '=')
+                    if (c_start != -1) {
+                        c_start = c_start + id.length + 1
+                        let c_end = document.cookie.indexOf(';', c_start)
+                        if (c_end == -1) c_end = document.cookie.length
+                        return unescape(document.cookie.substring(c_start, c_end))
+                    }
+                }
+                return ''
+            },
+
+            Vue.prototype.setCookie = (id, value, expiredays) => {
+                var exdate = new Date()
+                exdate.setDate(exdate.getDate() + expiredays)
+                document.cookie = id + '=' + escape(value) +
+                    ((expiredays == null) ? '' : '; expires=' + exdate.toGMTString())
             }
     }
 }

@@ -1,19 +1,19 @@
 <template>
   <div>
       <mt-tabbar id="footer" :active="active" >
-        <mt-tab-item id="发现音乐"  :class="{active:active==1}">
+        <mt-tab-item id="发现音乐"  :class="{active:active==1}" href="/">
             <img slot="icon" src="../assets/100x100.png">
             发现音乐
         </mt-tab-item>
-        <mt-tab-item id="我的音乐" :class="{active:active==2}">
+        <mt-tab-item id="我的音乐" :class="{active:active==2}" href="">
             <img slot="icon" src="../assets/100x100.png">
             我的音乐
         </mt-tab-item>
-        <mt-tab-item id="朋友" :class="{active:active==3}">
+        <mt-tab-item id="朋友" :class="{active:active==3}" href="">
             <img slot="icon" src="../assets/100x100.png">
             朋友
         </mt-tab-item>
-        <mt-tab-item id="账号" :class="{active:active==4}">
+        <mt-tab-item id="账号" :class="{active:active==4}" href="#/user">
             <img slot="icon" src="../assets/100x100.png">
             账号
         </mt-tab-item>
