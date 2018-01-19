@@ -4,7 +4,7 @@ var MyPlugin = {
         // 全局获取数据函数
         Vue.prototype.getData = (url, callback, param) => {
 
-                Vue.http.get('http://localhost:3000' + url, { params: param }).then(res => {
+                Vue.http.get('http://127.0.0.1:3000' + url, { params: param }).then(res => {
                     if (res.body.code == 200) {
                         if (typeof callback == 'function')
                             callback(res.body)

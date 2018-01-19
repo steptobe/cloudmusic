@@ -285,7 +285,7 @@ export default {
   }
   //头部
   .mint-cell{
-      min-height: .933333rem /* 70/75 */;
+    //   min-height: .933333rem /* 70/75 */;
   }
   .mint-cell-title {
     text-align: left;

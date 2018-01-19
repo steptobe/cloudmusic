@@ -25,7 +25,8 @@ export default {
                  if (res.body.code == 200) {
                       var userId = res.body.account.id
                       //设置userid
-                      this.setCookie('userId',userId,30)
+                      this.setCookie('userId',userId,30);
+                      this.$router.push('/user');
                  }
             })
       }
