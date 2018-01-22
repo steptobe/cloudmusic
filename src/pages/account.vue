@@ -13,13 +13,34 @@
         </mt-navbar>
         <mt-tab-container v-model="selected">
             <mt-tab-container-item id="1">
+              <p>歌单</p>
                <div  class="music-item">
-                <img  src="../assets/100x100.png">
+                <img  :src="playlist[0].coverImgUrl">
                 <p>
                   <span>听歌排行</span>
                   <span>{{data.listenSongs}}</span>
                 </p>
                </div>
+               <template v-for=" item  in playlist">
+                <div  class="music-item" v-if="item.ordered == false">
+                  <img  :src="item.coverImgUrl">
+                  <p>
+                    <span>{{item.name}}</span>
+                    <span>{{item.trackCount}}首，播放{{item.playCount}}</span>
+                  </p>
+               </div>
+               </template>
+                <p>收藏的歌单</p>
+                <template v-for=" item  in playlist">
+                <div  class="music-item"  v-if="item.ordered">
+                  <img  :src="item.coverImgUrl">
+                  <p>
+                    <span>{{item.name}}</span>
+                    <span>{{item.trackCount}}首，播放{{item.playCount}}</span>
+                  </p>
+               </div>
+               </template>
+
             </mt-tab-container-item>
             <mt-tab-container-item id="2">
                 <mt-cell title="标题文字" icon="more" value="带 icon" ></mt-cell>
@@ -40,7 +61,7 @@ export default {
       userId: "",
       data: {},
       selected:"1",
-      profile:{}
+      playlist:[]
     };
   },
   created() {
@@ -58,8 +79,8 @@ export default {
       console.log(this.data.profile.avatarUrl);
     },
     callback1(res) {
-      this.profile = res;
-      console.log(this.profile.profile.avatarUrl);
+      this.playlist = res.playlist
+      console.log(this.profile);
     },
     getdata(id) {
       var self = this;
@@ -116,6 +137,11 @@ export default {
   }
    .music-item{
      display: flex;
+     align-items:center;
+     height: 1.2rem /* 75/75 */;
+     span{
+       display: block;
+     }
       img{
         width: .8rem /* 48/100 */;
         height: .8rem;

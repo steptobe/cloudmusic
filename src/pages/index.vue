@@ -285,7 +285,13 @@ export default {
   }
   //头部
   .mint-cell{
-    //   min-height: .933333rem /* 70/75 */;
+      min-height: .7rem /* 70/100 */;
+      height: 50px;
+      .mint-cell-wrapper{
+        height: 50px;
+        align-content: center;
+        align-items: baseline;
+      }
   }
   .mint-cell-title {
     text-align: left;
