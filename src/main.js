@@ -48,6 +48,7 @@ Vue.http.interceptors.push((request, next) => {
 
 /* eslint-disable no-new */
 new Vue({
+
     el: '#app',
     router,
     template: '<App/>',

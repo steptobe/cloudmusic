@@ -17,7 +17,7 @@
                <div  class="music-item">
                 <img  :src="playlist[0].coverImgUrl">
                 <p>
-                  <span>听歌排行</span>
+                  <span @click="goBack">听歌排行</span>
                   <span>{{data.listenSongs}}</span>
                 </p>
                </div>
@@ -32,13 +32,13 @@
                </template>
                 <p>收藏的歌单</p>
                 <template v-for=" item  in playlist">
-                <div  class="music-item"  v-if="item.ordered">
+                <router-link to="/index" class="music-item"  v-if="item.ordered">
                   <img  :src="item.coverImgUrl">
                   <p>
                     <span>{{item.name}}</span>
                     <span>{{item.trackCount}}首，播放{{item.playCount}}</span>
                   </p>
-               </div>
+               </router-link>
                </template>
 
             </mt-tab-container-item>
@@ -61,19 +61,46 @@ export default {
       userId: "",
       data: {},
       selected:"1",
-      playlist:[]
+      playlist:[],
+      events:[],
+      isFirstEnter:false,
     };
   },
   created() {
-    this.userId = this.getCookie("userId");
-    if (this.userId == null || this.userId == "") {
-      this.$router.push("/login");
-    } else {
-      this.getdata(this.userId);
-      this.getSongList(this.userId);
+      this.isFirstEnter=true;
+   
+      console.log('user')
+    
+  },
+  activated() {
+    console.log("我是user activated 方法");
+    if(!this.$route.meta.isBack || this.isFirstEnter){
+       
+        this.userId = this.getCookie("userId");
+        if (this.userId == null || this.userId == "") {
+          this.$router.push("/login");
+        } else {
+          this.getdata(this.userId);
+          this.getSongList(this.userId);
+          this.getEvent(this.userId);
+            console.log('user加载')
+        }
     }
+    this.$route.meta.isBack=false
+    this.isFirstEnter=false;
+  },
+  beforeRouteEnter(to, from, next){
+      console.log('我是user的beforeRouteEnter方法')
+      if(from.name=='index'){
+        to.meta.isBack=true;
+        
+    }
+      next()
   },
   methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
     callback(res) {
       this.data = res;
       console.log(this.data.profile.avatarUrl);
@@ -82,14 +109,24 @@ export default {
       this.playlist = res.playlist
       console.log(this.profile);
     },
+    callback2(res) {
+      this.events = res.events
+      console.log(this.events);
+    },
     getdata(id) {
       var self = this;
       self.getData("/user/detail", this.callback, { uid: id });
     },
+    //获取用户歌单
     getSongList(id){
         var self = this;
       self.getData("/user/playlist", this.callback1, { uid: id });
-    }
+    },
+    //获取用户动态
+    getEvent(id){
+        var self = this;
+      self.getData("/user/event", this.callback2, { uid: id });
+    },
   }
 };
 </script>

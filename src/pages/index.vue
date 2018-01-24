@@ -33,7 +33,7 @@
             </mt-swipe>
             <!-- 私人FM、每日推荐、歌单、排行榜 -->
             <div class="flex sort">
-                <router-link to="">私人FM</router-link>
+                <router-link to="/user">私人FM</router-link>
                 <router-link to="">每日推荐</router-link>
                 <router-link to="">歌单</router-link>
                 <router-link to="">排行榜</router-link>
@@ -102,7 +102,7 @@
                     value="">
                     </mt-cell>
                 <div class="item">
-                    <router-link to="" v-for="item in recommendMV">
+                    <router-link to="/user" v-for="item in recommendMV">
                         <img :src="item.picUrl" alt="">
                         <h5>{{item.name}}</h5>
                         <p>{{item.artistName}}</p>
@@ -146,15 +146,35 @@ export default {
       privatecontent: "", //独家放送
       recommendMV:"",//推荐MV
       column:"",//专栏
+      isFirstEnter:false
     };
   },
   created() {
-    this.getbanner();
-    this.getRecommendSong();
-    this.getNewSong();
-    this.getPrivate();
-    this.getMV();
-    this.getColumn();
+    
+    this.isFirstEnter=true;
+    console.log('index')
+  },
+  activated() {
+    console.log("我是index activated 方法");
+    if(!this.$route.meta.isBack || this.isFirstEnter){
+       console.log('index加载')
+        this.getbanner();
+        this.getRecommendSong();
+        this.getNewSong();
+        this.getPrivate();
+        this.getMV();
+        this.getColumn();
+    }
+    this.$route.meta.isBack=false
+    this.isFirstEnter=false;
+  },
+  beforeRouteEnter(to, from, next){
+      console.log('我是index beforeRouteEnter方法')
+      if(from.name=='account'){
+        to.meta.isBack=true;
+       
+    }
+      next()
   },
   methods: {
     callback(res) {

@@ -13,7 +13,7 @@
             <img slot="icon" src="../assets/100x100.png">
             朋友
         </mt-tab-item>
-        <mt-tab-item id="账号" :class="{active:active==4}" href="#/user">
+        <mt-tab-item id="账号" :class="{active:active==4}" href="/user">
             <img slot="icon" src="../assets/100x100.png">
             账号
         </mt-tab-item>
