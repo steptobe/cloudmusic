@@ -15,12 +15,14 @@
 </template>
 
 <script>
+
 export default {
  
   name: 'app',
   created(){
     this.initRem();
-  }
+  },
+  
 }
 </script>
 

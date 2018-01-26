@@ -11,6 +11,7 @@ import 'mint-ui/lib/style.css'
 import './assets/sass/base.css'
 import Mint from 'mint-ui';
 import './assets/font/iconfont.css';
+
 //import Icon from './components/icon.vue'
 
 // globally (in your main .js file)
@@ -24,7 +25,10 @@ Vue.use(MyComponent)
 Vue.use(Mint)
     // Vue.use(MyPlugin)
 
-//
+
+Date.prototype.toLocaleString = function() {
+    return this.getFullYear() + "年" + (this.getMonth() + 1) + "月" + this.getDate() + "日 ";
+};
 //超时设置
 Vue.http.interceptors.push((request, next) => {
     let timeout;

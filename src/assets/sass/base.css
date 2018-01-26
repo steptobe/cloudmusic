@@ -81,6 +81,11 @@ textarea:focus {
     outline: none;
 }
 
+audio {
+    opacity: 0;
+    display: block !important;
+}
+
 
 /***loading***/
 

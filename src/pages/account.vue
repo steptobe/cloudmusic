@@ -7,15 +7,15 @@
       </header>
       <div>
          <mt-navbar v-model="selected">
-          <mt-tab-item id="1">音乐</mt-tab-item>
+          <mt-tab-item id="1">音乐 <span>{{playlist.length}}</span></mt-tab-item>
           <mt-tab-item id="2">动态<span>{{data.profile.eventCount}}</span></mt-tab-item>
           <mt-tab-item id="3">关于我</mt-tab-item>
         </mt-navbar>
         <mt-tab-container v-model="selected">
-            <mt-tab-container-item id="1">
-              <p>歌单</p>
+            <mt-tab-container-item id="1" class="music-box">
+               <h5>歌单</h5>
                <div  class="music-item">
-                <img  :src="playlist[0].coverImgUrl">
+                <img  src="../assets/images/01.png">
                 <p>
                   <span @click="goBack">听歌排行</span>
                   <span>{{data.listenSongs}}</span>
@@ -30,7 +30,7 @@
                   </p>
                </div>
                </template>
-                <p>收藏的歌单</p>
+                <h5>收藏的歌单</h5>
                 <template v-for=" item  in playlist">
                 <router-link to="/index" class="music-item"  v-if="item.ordered">
                   <img  :src="item.coverImgUrl">
@@ -42,8 +42,31 @@
                </template>
 
             </mt-tab-container-item>
-            <mt-tab-container-item id="2">
-                <mt-cell title="标题文字" icon="more" value="带 icon" ></mt-cell>
+            <mt-tab-container-item id="2" class="music-box2">
+                 <ul>
+                     <li v-for="item in events" :key="item.info.id">
+                       <div class="item-l">
+                            <img :src="data.profile.avatarUrl" alt="">
+                       </div>
+                       <div class="item-r">
+                           <h3><span>{{data.profile.nickname}}</span>分享单曲</h3>
+                           <h4>{{item.info.time}}</h4>
+                           <h5>{{item.info.msg}}</h5>
+                           <div class="item-b">
+                              <div class="item-info">
+                                  <p class="cover-img" :style="{backgroundImage:'url(' + item.info.bgSrc + ')'}">
+                                    <music :id="item.info.id" v-if="item.info.type == 18"></music>
+                                  </p>
+                                  
+                                  <p>
+                                    <span>{{item.info.name}}</span>
+                                    <span><small>{{item.info.actName}}</small></span>
+                                  </p>
+                              </div>
+                           </div>
+                       </div>
+                     </li>
+                 </ul>
             </mt-tab-container-item>
             <mt-tab-container-item id="3">
              
@@ -55,6 +78,8 @@
   </div>
 </template>
 <script>
+
+
 export default {
   data() {
     return {
@@ -72,6 +97,7 @@ export default {
       console.log('user')
     
   },
+ 
   activated() {
     console.log("我是user activated 方法");
     if(!this.$route.meta.isBack || this.isFirstEnter){
@@ -110,8 +136,32 @@ export default {
       console.log(this.profile);
     },
     callback2(res) {
-      this.events = res.events
+      
+      for(var i = 0;i <  res.events.length;i++){
+           this.events[i] = [];
+           this.events[i].info = {};
+         
+           this.events[i].info.type = res.events[i].type;
+           if(res.events[i].type == 18){
+             this.events[i].info.id = JSON.parse(res.events[i].json).song.id;
+             this.events[i].info.bgSrc = JSON.parse(res.events[i].json).song.album.img80x80;
+             this.events[i].info.actName = JSON.parse(res.events[i].json).song.album.artist.name;
+             this.events[i].info.name = JSON.parse(res.events[i].json).song.name;
+           } else{
+             this.events[i].info.id = JSON.parse(res.events[i].json).playlist.id;
+             this.events[i].info.bgSrc = JSON.parse(res.events[i].json).playlist.img80x80;
+             this.events[i].info.actName = JSON.parse(res.events[i].json).playlist.creator.nickname;
+             this.events[i].info.name = JSON.parse(res.events[i].json).playlist.name;
+           }
+           
+           this.events[i].info.msg = JSON.parse(res.events[i].json).msg;
+           this.events[i].info.time =  new Date(res.events[i].showTime).toLocaleString();
+           
+           console.log(this.events[i].info.type)
+      }
+       
       console.log(this.events);
+
     },
     getdata(id) {
       var self = this;
@@ -172,19 +222,141 @@ export default {
   .mint-cell-wrapper{
     text-align: left;
   }
-   .music-item{
+  //tab
+  .mint-navbar .mint-tab-item {
+    font-size: .4rem /* 30/75 */;
+    &.is-selected{
+      border-bottom: none;
+      position: relative;
+      color: $main;
+      margin-bottom: 0;
+      &::before{
+        content: "";
+        width: 50%;
+        left: 25%;
+        height: 2px;
+        position: absolute;
+        bottom: 0;
+        background:$main;
+
+    }
+    }
+    
+  }
+
+  // 音乐
+  .music-box{
+      h5{
+        border-top: 1px solid $br;
+        height: .666667rem /* 50/75 */;
+        display: flex;
+        align-items: center;
+        background: #eeeff1;
+        text-align: left;
+        padding-left: .4rem /* 40/75 */;
+        font-size: .373333rem /* 28/75 */;
+      }
+  }
+  .music-item{
      display: flex;
      align-items:center;
-     height: 1.2rem /* 75/75 */;
+     height: 1.466667rem  /* 75/75 */;
+     padding: 0.1rem;
      span{
        display: block;
+       &:nth-child(1){
+          font-size: .426667rem /* 32/75 */;
+          margin-bottom: .133333rem /* 10/75 */;
+       }
+       &:nth-child(2){
+          font-size: .32rem /* 24/75 */;
+          color:#999;
+       }
      }
-      img{
-        width: .8rem /* 48/100 */;
-        height: .8rem;
+     img{
+        width: 1.466667rem /* 110/75 */;
+        height: 1.466667rem /* 110/75 */;
+        margin-right: .333333rem /* 25/75 */;
+     }
+     p{
+        flex:1;
+        text-align: left;
       }
-    }
-}
+     }
+  }
+
+  //音乐 end
+
+  //动态
+  .music-box2{
+     li{
+       display: flex;
+       padding: .533333rem /* 40/75 */ .266667rem /* 20/75 */;
+       border-top:1px solid $br;
+
+     }
+     .item-l{
+        width: 1.066667rem /* 80/75 */;
+        height: 1.066667rem /* 80/75 */;
+        margin-right: .266667rem;
+        img{
+          width: 100%;
+          height: 100%;
+          border-radius: 100%;
+        }
+     }
+     .item-r{
+       flex:1;
+       text-align: left;
+       h3{
+         font-size: .4rem /* 32/75 */;
+         span{
+            color: #658196;
+            margin-right: .15rem /* 6/75 */;
+         }
+
+       }
+       h4{
+         font-size: 10px;
+       }
+       h5{
+         margin-top: .4rem /* 35/75 */;
+         line-height: .6rem /* 50/75 */;
+         font-size: .373333rem /* 28/75 */;
+       }
+       .item-b{
+         display: flex;
+         align-items: center;
+         height: 1.546667rem /* 116/75 */;
+         background: #f1f2f4;
+         padding-left: .2rem /* 15/75 */;
+         .item-info{
+           display: flex;
+           height: 1.066667rem /* 80/75 */;
+         }
+         span{
+           font-size: .4rem /* 30/75 */;
+           display: block;
+           &:nth-child(2){
+             margin-top: .1rem /* 10/75 */;
+             font-size: 10px;
+             transform: scale(.9);
+           }
+           small{
+             font-size: 80%;
+           }
+         }
+         
+       }
+       .cover-img{
+         display: inline-block;
+         width:1.066667rem /* 60/75 */;
+         height: 1.066667rem;
+         background-size: 100% 100%;
+         margin-right: .266667rem /* 20/75 */;
+       }
+     }
+  }
 .avatar-img {
   height: 2rem;
   width: 2rem;
