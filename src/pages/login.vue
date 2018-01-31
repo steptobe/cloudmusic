@@ -20,12 +20,22 @@ export default {
   created(){
   },
   methods:{
+    callback6(res){
+
+    },
       getlogin(){
-            this.$http.get('http://localhost:3000' + '/login/cellphone', {params :{ phone: this.phone, password: this.password }}).then(res => {
+            this.$http.get('http://localhost:3000' + '/login/cellphone', {params :{ phone: this.phone, password: this.password }},
+                        {xhrFields: {
+                            withCredentials: true
+                        }
+                    }).then(res => {
                  if (res.body.code == 200) {
                       var userId = res.body.account.id
                       //设置userid
                       this.setCookie('userId',userId,30);
+                     
+                    
+
                       this.$router.push('/user');
                  }
             })

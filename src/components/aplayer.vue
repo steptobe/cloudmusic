@@ -1,6 +1,6 @@
 <template>
    <div>
-       <aplayer autoplay :music="{
+       <aplayer  :music="{
                   title: title,
                   author: 'Hans Zimmer/Richard Harvey',
                   url: 'https://p2.music.126.net/Ah9t98gNkEvh_D9_mLwOWw==/2946691245626258.mp3',
@@ -18,3 +18,22 @@
      },
     }
 </script>
+<style lang="scss">
+    .aplayer{
+        position: fixed;
+        bottom:0;
+        z-index: 111111;
+        background-color: $main;
+        width:100%;
+        margin: 0 !important;
+        .aplayer-music{
+            color: #fff;
+        }
+        .aplayer-author{
+            color:#fff !important;
+        }
+        .aplayer-time{
+            color:#fff !important;
+        }
+    }
+</style>

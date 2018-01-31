@@ -21,11 +21,31 @@ a {
     display: block;
 }
 
+img[lazy=loading] {
+    background-color: #eee;
+    padding: 40%;
+    box-sizing: border-box;
+}
+
 h1 {
     font-size: .533333rem/* 40/75 */
     ;
     margin: 0;
     font-weight: normal;
+}
+
+.small {
+    font-size: 12px;
+    transform: scale(.9);
+}
+
+.single-text {
+    overflow: hidden;
+    /* white-space: nowrap; */
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
 }
 
 ul,

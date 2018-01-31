@@ -1,166 +1,74 @@
 <template>
-  <div class="avatar">
-      <header   :style="{backgroundImage:'url(' + data.profile.backgroundUrl + ')'}">
-          <span :style="{backgroundImage:'url(' + data.profile.avatarUrl + ')'}" class="avatar-img"></span>         
-          <h5>{{data.profile.nickname}}</h5>
-          <p><a href="">关注<span>{{data.profile.follows}}</span></a><a href="">粉丝<span>{{data.profile.followeds}}</span></a></p>
+  <div class="myMusic">
+      <header> 
+           <cell title="我的电台" path="" icon="icon-enshrine" img="icon-diantai" :value="station.length"></cell>
+           <cell title="最近播放" path="" icon="" img="icon-zuijinbofang" :value="recentPlay.length"></cell>
       </header>
-      <div>
-         <mt-navbar v-model="selected">
-          <mt-tab-item id="1">音乐 <span>{{playlist.length}}</span></mt-tab-item>
-          <mt-tab-item id="2">动态<span>{{data.profile.eventCount}}</span></mt-tab-item>
-          <mt-tab-item id="3">关于我</mt-tab-item>
-        </mt-navbar>
-        <mt-tab-container v-model="selected">
-            <mt-tab-container-item id="1" class="music-box">
-               <h5>歌单</h5>
-               <div  class="music-item">
-                <img  src="../assets/images/01.png">
-                <p>
-                  <span @click="goBack">听歌排行</span>
-                  <span>{{data.listenSongs}}</span>
-                </p>
-               </div>
-               <template v-for=" item  in playlist">
+      
+      <div class="music-box">
+            <h5>歌单</h5>
+            <template v-for=" item  in playlist">
                 <div  class="music-item" v-if="item.ordered == false">
-                  <img  :src="item.coverImgUrl">
-                  <p>
-                    <span>{{item.name}}</span>
-                    <span>{{item.trackCount}}首，播放{{item.playCount}}</span>
-                  </p>
-               </div>
-               </template>
-                <h5>收藏的歌单</h5>
-                <template v-for=" item  in playlist">
-                <router-link to="/index" class="music-item"  v-if="item.ordered">
-                  <img  :src="item.coverImgUrl">
-                  <p>
-                    <span>{{item.name}}</span>
-                    <span>{{item.trackCount}}首，播放{{item.playCount}}</span>
-                  </p>
-               </router-link>
-               </template>
-
-            </mt-tab-container-item>
-            <mt-tab-container-item id="2" class="music-box2">
-                 <ul>
-                     <li v-for="item in events" :key="item.info.id">
-                       <div class="item-l">
-                            <img :src="data.profile.avatarUrl" alt="">
-                       </div>
-                       <div class="item-r">
-                           <h3><span>{{data.profile.nickname}}</span>分享单曲</h3>
-                           <h4>{{item.info.time}}</h4>
-                           <h5>{{item.info.msg}}</h5>
-                           <div class="item-b">
-                              <div class="item-info">
-                                  <p class="cover-img" :style="{backgroundImage:'url(' + item.info.bgSrc + ')'}">
-                                    <music :id="item.info.id" v-if="item.info.type == 18"></music>
-                                  </p>
-                                  
-                                  <p>
-                                    <span>{{item.info.name}}</span>
-                                    <span><small>{{item.info.actName}}</small></span>
-                                  </p>
-                              </div>
-                           </div>
-                       </div>
-                     </li>
-                 </ul>
-            </mt-tab-container-item>
-            <mt-tab-container-item  id="3" class="music-box3">
-               <section>
-                 <h5>个人信息</h5>
-                
-                   <p><span>等级:</span><span class="small"><i>Lv.8</i></span></p>
-                   <p><span>性别:</span><span>{{gender}}</span></p>
-                    <p><span>年龄:</span><span>{{age}}{{Astro}}</span></p>
+                    <img  :src="item.coverImgUrl">
                     <p>
-                      <span>社交账号:</span>
-                      <a :href="item.url" v-for="item in data.bindings" v-if="item.url != '' " >
-                        <i class="iconfont icon-weibo" v-if="item.url.indexOf('weibo') != -1"></i>
-                        <i class="iconfont icon-douban" v-if="item.url.indexOf('douban') != -1"></i>
-                      </a>
+                    <span>{{item.name}}</span>
+                    <span>{{item.trackCount}}首，播放{{item.playCount}}</span>
                     </p>
-              
-               </section>
-               <section>
-                  <h5>个人简介</h5>
-                  <p>{{data.profile.signature}}</p>
-               </section>
-            </mt-tab-container-item>
-        </mt-tab-container>
-      </div>
-    
+                </div>
+            </template>
+            <h5>收藏的歌单</h5>
+            <template v-for=" item  in playlist">
+                <router-link to="/index" class="music-item"  v-if="item.ordered">
+                    <img  :src="item.coverImgUrl">
+                    <p>
+                    <span>{{item.name}}</span>
+                    <span>{{item.trackCount}}首，播放{{item.playCount}}</span>
+                    </p>
+                </router-link>
+            </template>
 
+        </div>
   </div>
 </template>
 <script>
 
-
+import cell from "../components/common/cell.vue";
 export default {
   data() {
     return {
       userId: "",
-      data: {},
+      station: {},
       selected:"1",
       playlist:[],
       events:[],
-      isFirstEnter:false,
       Astro:"",
       age:"",
       gender:"",
+      recentPlay:{}
     };
   },
-  created() {
-      this.isFirstEnter=true;
-   
-      console.log('user')
-    
+  components:{
+      cell
   },
- 
-  activated() {
-    console.log("我是user activated 方法");
-    if(!this.$route.meta.isBack || this.isFirstEnter){
-       
-        this.userId = this.getCookie("userId");
+  created() {
+      this.userId = this.getCookie("userId");
         if (this.userId == null || this.userId == "") {
           this.$router.push("/login");
         } 
         if(this.userId){
-           this.getdata(this.userId);
+           this.getStation(this.userId);
           this.getSongList(this.userId);
           this.getEvent(this.userId);
+          this.getRecentPlay(this.userId);
             console.log('user加载')
         }
-         
-        
-    }
-    this.$route.meta.isBack=false
-    this.isFirstEnter=false;
-  },
-  beforeRouteEnter(to, from, next){
-      console.log('我是user的beforeRouteEnter方法')
-      if(from.name=='index'){
-        to.meta.isBack=true;
-        
-    }
-      next()
+    
   },
   methods: {
-    goBack() {
-      this.$router.go(-1);
-    },
+   
     callback(res) {
-      this.data = res;
-      var xingz = new Date(this.data.profile.birthday);         
-      this.age = new Date().getFullYear() - xingz.getFullYear();
-      var m = xingz.getMonth();
-      var d = xingz.getDate();
-      this.Astro = this.getAstro(m,d);
-      this.gender = this.data.profile.gender == 1?"男":"女";
-      console.log(this.gender)
-      
+      this.station = res.programs;
+     
     },
     callback1(res) {
       this.playlist = res.playlist
@@ -195,9 +103,17 @@ export default {
       console.log(this.events);
 
     },
-    getdata(id) {
+    callback3(res){
+        this.recentPlay = res.weekData;
+    },
+    //获取电台
+    getStation(id) {
       var self = this;
-      self.getData("/user/detail", this.callback, { uid: id });
+      self.getData("/user/dj", this.callback, { uid: id });
+    },
+    getRecentPlay(id){
+      var self = this;
+      self.getData("/user/record", this.callback3, { uid: id,type:1 });
     },
     //获取用户歌单
     getSongList(id){
@@ -213,43 +129,11 @@ export default {
 };
 </script>
 <style lang="scss">
-.avatar {
+.myMusic {
   header {
-    height: 5.333333rem;
-    padding: 0.266667rem 0.266667rem;
-    border-bottom: 1px solid $br;
-    background-color: rgba(0, 0, 0, 0.4);
-    background-position: center center;
-    background-size: 100% 100%;
+    
    
-    h5 {
-      height: 1rem;
-      line-height: 1rem;
-      font-size: .533333rem /* 40/75 */;
-      color: #fff;
-    }
-    p{
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        a{
-            color:#fff;
-            height: .4rem /* 30/75 */;
-            line-height: .4rem /* 30/75 */;
-            &:first-child{
-                padding-right: .133333rem /* 10/75 */;
-                border-right:1px solid #fff;
-            }
-            &:nth-child(2){
-                padding-left: .133333rem /* 10/75 */;
-
-            }
-
-        }
-        span{
-            margin-left: .133333rem /* 10/75 */;
-        }
-    }
+   
   }
   .mint-cell-wrapper{
     text-align: left;

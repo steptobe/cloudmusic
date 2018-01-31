@@ -1,12 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+
 Vue.use(Router)
 
 const index = resolve => require(['../pages/index.vue'], resolve)
 const index1 = resolve => require(['../pages/index1.vue'], resolve)
 const login = resolve => require(['../pages/login.vue'], resolve)
 const account = resolve => require(['../pages/account.vue'], resolve)
+const dailyRecommendation = resolve => require(['../pages/dailyRecommendation.vue'], resolve)
+const recommendSongList = resolve => require(['../pages/recommendSongList.vue'], resolve)
+const myMusic = resolve => require(['../pages/myMusic.vue'], resolve)
+const songMenu = resolve => require(['../pages/songMenu.vue'], resolve)
+const play = resolve => require(['../pages/play.vue'], resolve);
 
 const routes = [{
         path: '/',
@@ -41,6 +47,26 @@ const routes = [{
             keepAlive: true, //此组件需要被缓存
             isBack: false, //用于判断上一个页面是哪个
         }
+    },
+    { //每日推荐
+        path: '/dailyRecommendation',
+        component: dailyRecommendation
+
+    },
+    {
+        path: '/recommendSongList',
+        component: recommendSongList
+    },
+    {
+        path: '/myMusic',
+        component: myMusic
+    },
+    {
+        path: '/songMenu/:id',
+        component: songMenu
+    }, {
+        path: '/play/:id',
+        component: play
     }
 ]
 

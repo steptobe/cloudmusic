@@ -3,16 +3,21 @@ var MyPlugin = {
     install(Vue, options) {
         // 全局获取数据函数
         Vue.prototype.getData = (url, callback, param) => {
-
-                Vue.http.get('http://127.0.0.1:3000' + url, { params: param }).then(res => {
-                    if (res.body.code == 200) {
-                        if (typeof callback == 'function')
-                            callback(res.body)
-                    } else {
-                        alert('错误')
-                    }
-                })
+                Vue.http.options.xhr = { withCredentials: true },
+                    Vue.http.get('http://localhost:3000' + url, { params: param }, {
+                        xhrFields: {
+                            withCredentials: true
+                        }
+                    }).then(res => {
+                        if (res.body.code == 200) {
+                            if (typeof callback == 'function')
+                                callback(res.body)
+                        } else {
+                            alert('错误')
+                        }
+                    })
             },
+
             // 响应式
             Vue.prototype.initRem = () => {
                 new function() {
@@ -64,7 +69,13 @@ var MyPlugin = {
                 exdate.setDate(exdate.getDate() + expiredays)
                 document.cookie = id + '=' + escape(value) +
                     ((expiredays == null) ? '' : '; expires=' + exdate.toGMTString())
+            },
+            //判断星座
+            Vue.prototype.getAstro = (m, d) => {
+                return "魔羯水瓶双鱼牡羊金牛双子巨蟹狮子处女天秤天蝎射手魔羯".substr(m * 2 - (d < "102223444433".charAt(m - 1) - -19) * 2, 2);
             }
+
+
     }
 }
 

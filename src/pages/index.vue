@@ -22,34 +22,34 @@
                 </li>
             </ul>
         </div>
-        <main>
+        <main v-if="!showLoading">
             <!-- 轮播图 -->
             <mt-swipe :auto="4000">
                 <mt-swipe-item v-for="item in banners" :key="item.encodeId">
                     <a href="javascript:;">
-                        <img :src="getImgPath(item.pic)" :alt="item.pic">
+                        <img v-lazy="getImgPath(item.pic)" :alt="item.pic">
                     </a>
                 </mt-swipe-item>
             </mt-swipe>
             <!-- 私人FM、每日推荐、歌单、排行榜 -->
             <div class="flex sort">
                 <router-link to="/user">私人FM</router-link>
-                <router-link to="">每日推荐</router-link>
-                <router-link to="">歌单</router-link>
+                <router-link to="/dailyRecommendation">每日推荐</router-link>
+                <router-link to="/recommendSongList">歌单</router-link>
                 <router-link to="">排行榜</router-link>
             </div>
             <!-- 推荐歌单 -->
             <div class="recommend">
                 <mt-cell
                     title="推荐歌单"
-                    to=""
+                    to="/recommendSongList"
                     is-link
                     value="">
                     </mt-cell>
                 <ul class="clearfix">
-                    <li v-for="item in recommendSong">
+                    <li v-for="item in recommendSong.slice(0,6)">
                         <router-link to="">
-                            <img :src="item.picUrl" alt="">
+                            <img v-lazy="item.picUrl" alt="">
                             <p>{{item.name}}</p>
                         </router-link>
                     </li>
@@ -64,13 +64,13 @@
                     value="">
                     </mt-cell>
                 <div class="item">
-                    <router-link to="" v-for="item in privatecontent.slice(0,2)">
-                        <img :src="item.picUrl" alt="">
+                    <router-link to="" v-for="item in privatecontent.slice(1,3)">
+                        <img v-lazy="item.picUrl" alt="">
                         <p>{{item.name}}</p>
                     </router-link>
                 </div>
-                <router-link to="" class="item-b" v-for="item in privatecontent.slice(2,3)">
-                    <img :src="item.picUrl" alt="">
+                <router-link to="" class="item-b" v-for="item in privatecontent.slice(0,1)">
+                    <img v-lazy="item.picUrl" alt="">
                         <p>{{item.name}}</p>
                 </router-link>
                 
@@ -85,8 +85,8 @@
                     </mt-cell>
                 <ul class="clearfix">
                     <li v-for="item in newSong">
-                        <router-link to="">
-                            <img :src="getImgPath(item.picUrl)" alt="">
+                        <router-link :to="'/play/' + item.id">
+                            <img v-lazy="getImgPath(item.song.album.picUrl)" alt="">
                             <h5>{{item.name}}</h5>
                             <p>{{item.song.artists[0].name}}</p>
                         </router-link>
@@ -103,7 +103,7 @@
                     </mt-cell>
                 <div class="item">
                     <router-link to="/user" v-for="item in recommendMV">
-                        <img :src="item.picUrl" alt="">
+                        <img v-lazy="item.picUrl" alt="">
                         <h5>{{item.name}}</h5>
                         <p>{{item.artistName}}</p>
                     </router-link>
@@ -123,18 +123,19 @@
                 <ul class="clearfix">
                     <li v-for="item in column">
                         <router-link to="">
-                            <img :src="item.picUrl" alt="">
+                            <img v-lazy="item.picUrl" alt="">
                             <p>{{item.name}}</p>
                         </router-link>
                     </li>
                 </ul>
             </div>
         </main>
-        <footerCom active="1"></footerCom>       
+        <loading v-if="showLoading"></loading>
     </div>
 </template>
 
 <script>
+import { Lazyload } from 'mint-ui';
 export default {
   name: "hello",
   data() {
@@ -142,6 +143,7 @@ export default {
       msg: "Welcome to Your Vue.js App",
       banners: "", //轮播图
       recommendSong: "", //推荐歌单
+      showLoading:true,
       newSong: "", //最新音乐
       privatecontent: "", //独家放送
       recommendMV:"",//推荐MV
@@ -150,9 +152,13 @@ export default {
     };
   },
   created() {
-    
+     
     this.isFirstEnter=true;
     console.log('index')
+    
+    // if(this.getCookie("Hm_lvt_922f54e4a07a9c9fb447fe59cefe7486")){
+        //  this.getRecommendMusic();
+    // }
   },
   activated() {
     console.log("我是index activated 方法");
@@ -164,7 +170,11 @@ export default {
         this.getPrivate();
         this.getMV();
         this.getColumn();
+       
     }
+   
+            
+      
     this.$route.meta.isBack=false
     this.isFirstEnter=false;
   },
@@ -182,6 +192,7 @@ export default {
     },
     callback1(res) {
       this.recommendSong = res.result;
+       this.showLoading = false;
     },
     callback2(res) {
       this.newSong = res.result.slice(0, 6);
@@ -196,17 +207,21 @@ export default {
     callback5(res) {
       this.column = res.result;
       console.log(this.column);
+      
     },
+    
     getbanner() {
       var self = this;
       self.getData("/banner", this.callback);
       console.log("data" + self.msg);
     },
+    
 
     //推荐歌单
     getRecommendSong() {
       var self = this;
       self.getData("/personalized", this.callback1);
+     
     },
 
     //最新歌曲
@@ -245,7 +260,7 @@ export default {
 // @import "../assets/sass/style.scss";
 .clound {
     main{
-        margin: 1rem 0 50px;
+        margin: 1rem 0 0;
     }
   .header{
       position: fixed;

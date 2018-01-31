@@ -10,18 +10,25 @@
     <router-view v-if="!$route.meta.keepAlive">
         <!-- 这里是不被缓存的视图组件 -->
     </router-view>
-    
+    <footerCom></footerCom>
+    <aplayer></aplayer>       
   </div>
 </template>
 
 <script>
-
+import footerCom from './components/footer.vue';
+import aplayer from './components/aplayer.vue';
 export default {
  
   name: 'app',
   created(){
     this.initRem();
+   
   },
+  components:{
+    footerCom,
+    aplayer,
+  }
   
 }
 </script>
@@ -35,6 +42,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  /*margin-top: 60px; */
+  padding-bottom: 1.2rem /* 60/75 */;
 }
 </style>
