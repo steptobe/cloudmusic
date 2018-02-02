@@ -1,13 +1,13 @@
 <template>
     <div class="clound">
         <!-- 头部 -->
-        <!-- <mt-header title="右侧仅文字">
-            <router-link to="/" slot="right">
-                <mt-button>
+        <header>
+            <router-link to="/search">
+               
                     <i class="iconfont icon-search_light"></i>
-                </mt-button>
+               
             </router-link>
-        </mt-header> -->
+        </header>
         <!-- 音乐、视频、电台 -->
         <div class="header">
             <ul  class="tab">
@@ -260,22 +260,30 @@ export default {
 // @import "../assets/sass/style.scss";
 .clound {
     main{
-        margin: 1rem 0 0;
+        margin: 0 0 0;
     }
   .header{
-      position: fixed;
-      top: 0;
+    //   position: fixed;
+    //   top: 0;
       width: 100vw;
       background-color:#fff;
       z-index: 101;
+      
+
   }
   header {
     display: flex;
     align-items: center;
     margin: 0 auto;
-    @include lh(1rem);
+    @include lh(1.5rem);
+    background-color: $main;
+    justify-content: center;
     a {
       @include lh(0.8rem);
+          width: 80%;
+        border: 1px solid #fff;
+        background-color: #fff;
+        border-radius: .533333rem /* 40/75 */;
     }
   }
   .mint-header {

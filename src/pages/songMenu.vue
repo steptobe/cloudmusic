@@ -13,7 +13,7 @@
           </section>
       </header>
       <article>
-          <h5 class="title"><span>播放全部<i></i></span><span>多选</span></h5>
+          <h5 class="title"><span><i class="iconfont icon-play"></i>播放全部<i></i></span><span><i class="iconfont icon-iconfontcaidan"></i>多选</span></h5>
           <ul>
               <template v-for="(item,index) in result.tracks">
                 <li>
@@ -65,7 +65,8 @@ export default {
 
         header{
             height: 6rem /* 450/75 */;
-            background-color: #8a8d96;
+            background: url('../assets/images/01_bg.png') center center no-repeat;
+            background-size: 100% 100%;
             display: flex;
             align-items: center;
             padding: 0 .4rem /* 30/75 */;
@@ -86,6 +87,20 @@ export default {
         .title{
             height: 1.28rem /* 96/75 */;
             border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: .36rem /* 15/75 */;
+            padding: 0 .533333rem /* 40/75 */;
+            span{
+                @include lh(
+                    1rem
+                );
+                .iconfont{
+                    font-size: .48rem /* 36/75 */;
+                    margin-right:.133333rem /* 10/75 */;
+                }
+            }
         }
         article{
             a{

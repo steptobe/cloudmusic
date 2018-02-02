@@ -11,6 +11,7 @@ import 'mint-ui/lib/style.css'
 import './assets/sass/base.css'
 import Mint from 'mint-ui';
 import './assets/font/iconfont.css';
+import store from './store'
 
 //import Icon from './components/icon.vue'
 
@@ -55,6 +56,7 @@ new Vue({
 
     el: '#app',
     router,
+    store,
     template: '<App/>',
     components: { App }
 })

@@ -4,6 +4,7 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+//首页
 const index = resolve => require(['../pages/index.vue'], resolve)
 const index1 = resolve => require(['../pages/index1.vue'], resolve)
 const login = resolve => require(['../pages/login.vue'], resolve)
@@ -13,7 +14,7 @@ const recommendSongList = resolve => require(['../pages/recommendSongList.vue'],
 const myMusic = resolve => require(['../pages/myMusic.vue'], resolve)
 const songMenu = resolve => require(['../pages/songMenu.vue'], resolve)
 const play = resolve => require(['../pages/play.vue'], resolve);
-
+const search = resolve => require(['../pages/search.vue'], resolve);
 const routes = [{
         path: '/',
         redirect: '/index',
@@ -53,20 +54,30 @@ const routes = [{
         component: dailyRecommendation
 
     },
+    //推荐歌单
     {
         path: '/recommendSongList',
         component: recommendSongList
     },
+    //我的音乐
     {
         path: '/myMusic',
         component: myMusic
     },
+    //歌单
     {
         path: '/songMenu/:id',
         component: songMenu
-    }, {
+    },
+    //播放
+    {
         path: '/play/:id',
         component: play
+    },
+    //搜索
+    {
+        path: '/search',
+        component: search
     }
 ]
 
