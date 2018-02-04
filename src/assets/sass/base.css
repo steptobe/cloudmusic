@@ -102,8 +102,8 @@ textarea:focus {
 }
 
 audio {
-    opacity: 0;
-    display: block !important;
+    /* opacity: 0;
+    display: block !important; */
 }
 
 

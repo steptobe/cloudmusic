@@ -11,7 +11,12 @@ export default new Vuex.Store({
             url: 'https://p2.music.126.net/Ah9t98gNkEvh_D9_mLwOWw==/2946691245626258.mp3',
             pic: 'http://devtest.qiniudn.com/Preparation.jpg',
             lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
+        },
+        apB: {
+            play: true,
+            pause: true,
         }
+
     },
     actions: {
         getUserInfo(context, callback) { //获取用户信息后操作
@@ -55,5 +60,8 @@ export default new Vuex.Store({
         setTitle(state, title) { //更改页面标题
             state.pageTitle = title;
         },
+        setAp(state, apB) {
+            state.apB = apB;
+        }
     }
 });

@@ -1,7 +1,7 @@
 <template>
-   <div class="music-com">
+   <div class="music-com" v-if="loaded">
        <a  href="javascript:;">
-            <audio   hidden>
+            <audio class="audio">
                                         <source :src="src" type="audio/ogg">
                                         <source :src="src" type="audio/mpeg">
                                     Your browser does not support the audio tag.
@@ -25,9 +25,8 @@
        methods:{
            callback(res) {
               
-            this.src = res.data[0].url;
+             this.src = res.data[0].url;
              this.loaded = true;
-               
             },
             getmusic() {
               

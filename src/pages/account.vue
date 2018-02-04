@@ -52,7 +52,7 @@
                            <h3><span>{{data.profile.nickname}}</span>分享单曲</h3>
                            <h4>{{item.info.time}}</h4>
                            <h5>{{item.info.msg}}</h5>
-                           <div class="item-b">
+                           <div class="item-b"   @click="audioFun">
                               <div class="item-info">
                                   <p class="cover-img" :style="{backgroundImage:'url(' + item.info.bgSrc + ')'}">
                                     <music :id="item.info.id" v-if="item.info.type == 18"></music>
@@ -185,7 +185,7 @@ export default {
              this.events[i].info.actName = JSON.parse(res.events[i].json).playlist.creator.nickname;
              this.events[i].info.name = JSON.parse(res.events[i].json).playlist.name;
            }
-           
+          //  this.store.commit('setmusicData',{title,})
            this.events[i].info.msg = JSON.parse(res.events[i].json).msg;
            this.events[i].info.time =  new Date(res.events[i].showTime).toLocaleString();
            
@@ -194,6 +194,17 @@ export default {
        
       console.log(this.events);
 
+    },
+    audioFun(e){
+        this.$nextTick(()=>{
+          let matches = document.querySelectorAll('audio');
+          for(var i = 0; i < matches.length;i++){
+              matches[i].pause();
+          }
+          e.target.getElementsByTagName('audio')[0].play();
+
+        })
+//getElementsByClassName
     },
     getdata(id) {
       var self = this;
