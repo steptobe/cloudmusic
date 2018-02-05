@@ -11,7 +11,7 @@
         <!-- 这里是不被缓存的视图组件 -->
     </router-view>
     <!-- <footerCom></footerCom> -->
-    <aplayer></aplayer> 
+    <aplayer v-if="isShowTabber"></aplayer> 
     <mt-palette-button content="+" :radius="60" ref="target"
       style="right:20px;">
       <div class="my-icon-button indexicon icon-popup" @click="sub_log(1)"><i class="iconfont icon-index"></i></div>
@@ -28,6 +28,7 @@ export default {
  
   name: 'app',
   created(){
+   
     this.initRem();
    
   },
@@ -35,14 +36,20 @@ export default {
     footerCom,
     aplayer,
   },
+  computed:{
+    isShowTabber(){
+      return this.$store.state.isShowTabber;
+    }
+  },
   methods:{
       sub_log(type){
         if(type == 1){
             this.$router.push('/index');
         } else if(type == 2){
-            this.$router.push('/user');
+             this.$router.push('/myMusic');
         } else{
-            this.$router.push('/myMusic');
+           
+            this.$router.push('/user');
         }
         this.$refs.target.collapse();
       }

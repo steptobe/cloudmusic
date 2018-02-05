@@ -22,17 +22,17 @@
                 </p>
                </div>
                <template v-for=" item  in playlist">
-                <div  class="music-item" v-if="item.ordered == false">
+                <router-link :to="'/songMenu/'+ item.id"  class="music-item" v-if="item.ordered == false">
                   <img  :src="item.coverImgUrl">
                   <p>
                     <span>{{item.name}}</span>
                     <span>{{item.trackCount}}首，播放{{item.playCount}}</span>
                   </p>
-               </div>
+               </router-link>
                </template>
                 <h5>收藏的歌单</h5>
                 <template v-for=" item  in playlist">
-                <router-link to="/index" class="music-item"  v-if="item.ordered">
+                <router-link :to="'/songMenu/'+ item.id" class="music-item"  v-if="item.ordered">
                   <img  :src="item.coverImgUrl">
                   <p>
                     <span>{{item.name}}</span>

@@ -15,6 +15,7 @@ const myMusic = resolve => require(['../pages/myMusic.vue'], resolve)
 const songMenu = resolve => require(['../pages/songMenu.vue'], resolve)
 const play = resolve => require(['../pages/play.vue'], resolve);
 const search = resolve => require(['../pages/search.vue'], resolve);
+const mvDetail = resolve => require(['../pages/mvDetail.vue'], resolve);
 const routes = [{
         path: '/',
         redirect: '/index',
@@ -78,6 +79,11 @@ const routes = [{
     {
         path: '/search',
         component: search
+    },
+    //mv
+    {
+        path: '/mvDetail/:id',
+        component: mvDetail
     }
 ]
 
@@ -112,7 +118,7 @@ export default new Router({
     //滚动
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {
-            alert(savedPosition)
+
             return savedPosition
         } else {
             return {

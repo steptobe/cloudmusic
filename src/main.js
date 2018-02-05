@@ -12,6 +12,7 @@ import './assets/sass/base.css'
 import Mint from 'mint-ui';
 import './assets/font/iconfont.css';
 import store from './store'
+import VueVideoPlayer from 'vue-video-player'
 
 //import Icon from './components/icon.vue'
 
@@ -24,6 +25,7 @@ Vue.use(VueResource)
 Vue.use(MyPlugin)
 Vue.use(MyComponent)
 Vue.use(Mint)
+Vue.use(VueVideoPlayer)
     // Vue.use(MyPlugin)
 
 

@@ -48,7 +48,7 @@
                     </mt-cell>
                 <ul class="clearfix">
                     <li v-for="item in recommendSong.slice(0,6)">
-                        <router-link to="">
+                        <router-link :to="'/songMenu/'+ item.id">
                             <img v-lazy="item.picUrl" alt="">
                             <p>{{item.name}}</p>
                         </router-link>
@@ -97,12 +97,12 @@
             <div class="recommend recommend-mv">
                 <mt-cell
                     title="推荐MV"
-                    to=""
+                    to="/mvDetail"
                     is-link
                     value="">
                     </mt-cell>
                 <div class="item">
-                    <router-link to="/user" v-for="item in recommendMV">
+                    <router-link :to="'/mvDetail/'+item.id" v-for="item in recommendMV">
                         <img v-lazy="item.picUrl" alt="">
                         <h5>{{item.name}}</h5>
                         <p>{{item.artistName}}</p>
