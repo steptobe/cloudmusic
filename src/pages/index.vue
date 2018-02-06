@@ -155,7 +155,7 @@ export default {
      
     this.isFirstEnter=true;
     console.log('index')
-    
+    this.$store.commit("showTabber");
     // if(this.getCookie("Hm_lvt_922f54e4a07a9c9fb447fe59cefe7486")){
         //  this.getRecommendMusic();
     // }
@@ -170,6 +170,7 @@ export default {
         this.getPrivate();
         this.getMV();
         this.getColumn();
+         this.$store.commit("showTabber");
        
     }
    

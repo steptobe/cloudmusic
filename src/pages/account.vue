@@ -114,7 +114,7 @@ export default {
   },
   created() {
       this.isFirstEnter=true;
-   
+      this.$store.commit("hideTabber");
       console.log('user')
     
   },

@@ -13,7 +13,7 @@ export default new Vuex.Store({
             lrc: '[00:00.00]lrc here\n[00:01.00]aplayer'
         },
         apB: {
-            play: true,
+            play: false,
             pause: true,
         }
 

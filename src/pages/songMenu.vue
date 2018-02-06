@@ -44,7 +44,8 @@ export default {
        }
    },
    created(){
-       this.getData1()
+       this.getData1();
+       this.$store.commit("showTabber");
    },
   
    methods:{
