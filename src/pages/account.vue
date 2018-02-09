@@ -8,7 +8,7 @@
       <div>
          <mt-navbar v-model="selected">
           <mt-tab-item id="1">音乐 <span>{{playlist.length}}</span></mt-tab-item>
-          <mt-tab-item id="2">动态<span>{{data.profile.eventCount}}</span></mt-tab-item>
+          <mt-tab-item id="2">动态<span>{{events.length}}</span></mt-tab-item>
           <mt-tab-item id="3">关于我</mt-tab-item>
         </mt-navbar>
         <mt-tab-container v-model="selected">
@@ -117,16 +117,21 @@ export default {
       this.$store.commit("hideTabber");
       console.log('user')
     
+    
   },
- 
+  
   activated() {
     console.log("我是user activated 方法");
     if(!this.$route.meta.isBack || this.isFirstEnter){
+        if(this.$route.params.id == 0){
+           this.userId = this.getCookie("userId");
+          if (this.userId == null || this.userId == "") {
+            this.$router.push("/login");
+          } 
+        }else{
+          this.userId = this.$route.params.id;
+        }
        
-        this.userId = this.getCookie("userId");
-        if (this.userId == null || this.userId == "") {
-          this.$router.push("/login");
-        } 
         if(this.userId){
            this.getdata(this.userId);
           this.getSongList(this.userId);
@@ -168,31 +173,36 @@ export default {
 
     },
     callback2(res) {
-      
+      this.events = [];
+      var j = -1;
       for(var i = 0;i <  res.events.length;i++){
-           this.events[i] = [];
-           this.events[i].info = {};
+        if(res.events[i].type == 18 || res.events[i].type == 13){
+           j++;
+           this.events[j] = [];
+           this.events[j].info = {};
          
-           this.events[i].info.type = res.events[i].type;
-           if(res.events[i].type == 18){
-             this.events[i].info.id = JSON.parse(res.events[i].json).song.id;
-             this.events[i].info.bgSrc = JSON.parse(res.events[i].json).song.album.img80x80;
-             this.events[i].info.actName = JSON.parse(res.events[i].json).song.album.artist.name;
-             this.events[i].info.name = JSON.parse(res.events[i].json).song.name;
-           } else{
-             this.events[i].info.id = JSON.parse(res.events[i].json).playlist.id;
-             this.events[i].info.bgSrc = JSON.parse(res.events[i].json).playlist.img80x80;
-             this.events[i].info.actName = JSON.parse(res.events[i].json).playlist.creator.nickname;
-             this.events[i].info.name = JSON.parse(res.events[i].json).playlist.name;
+           this.events[j].info.type = res.events[i].type;
+           if(res.events[j].type == 18){
+             this.events[j].info.id = JSON.parse(res.events[i].json).song.id;
+             this.events[j].info.bgSrc = JSON.parse(res.events[i].json).song.album.img80x80;
+             this.events[j].info.actName = JSON.parse(res.events[i].json).song.album.artist.name;
+             this.events[j].info.name = JSON.parse(res.events[i].json).song.name;
+           } else if(res.events[i].type == 13){
+             this.events[j].info.id = JSON.parse(res.events[i].json).playlist.id;
+             this.events[j].info.bgSrc = JSON.parse(res.events[i].json).playlist.img80x80;
+             this.events[j].info.actName = JSON.parse(res.events[i].json).playlist.creator.nickname;
+             this.events[j].info.name = JSON.parse(res.events[i].json).playlist.name;
            }
           //  this.store.commit('setmusicData',{title,})
-           this.events[i].info.msg = JSON.parse(res.events[i].json).msg;
-           this.events[i].info.time =  new Date(res.events[i].showTime).toLocaleString();
+           this.events[j].info.msg = JSON.parse(res.events[i].json).msg;
+           this.events[j].info.time =  new Date(res.events[i].showTime).toLocaleString();
            
-           console.log(this.events[i].info.type)
+          //  console.log(this.events[i].info.type)
+        }
+
       }
        
-      console.log(this.events);
+      // console.log(this.events.length);
 
     },
     audioFun(e){

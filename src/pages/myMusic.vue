@@ -62,7 +62,7 @@ export default {
           this.getRecentPlay(this.userId);
             console.log('user加载')
         }
-    
+     this.$store.commit("showTabber");
   },
   methods: {
    

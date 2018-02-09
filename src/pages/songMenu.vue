@@ -4,18 +4,27 @@
       <header>
           <section>
               <div>
-                  <img :src="result.coverImgUrl" alt="">
+                  <img :src="result.coverImgUrl" alt="" v-if="!albumsBool" >
+                  <img :src="songs.album.picUrl" alt="" v-else >
               </div>
               <div>
-                  <h5>{{result.name}}</h5>
-
+                  <template  v-if="!albumsBool">
+                      <h5>{{result.name}}</h5>
+                  </template>
+                  <template v-else>
+                      <h5 >{{songs.album.name}}</h5>
+                      <router-link to="">歌手：{{songs.album.artist.name}}</router-link>
+                      <p>发行时间：{{new Date(songs.album.publishTime).toLocaleString()}}</p>
+                  </template>
+                  
+                  
               </div>
           </section>
       </header>
       <article>
           <h5 class="title"><span><i class="iconfont icon-play"></i>播放全部<i></i></span><span><i class="iconfont icon-iconfontcaidan"></i>多选</span></h5>
           <ul>
-              <template v-for="(item,index) in result.tracks">
+              <template v-for="(item,index) in result.tracks" v-if="!albumsBool">
                 <li>
                     <span class="num">{{index}}</span>
                     <router-link to="">
@@ -23,6 +32,20 @@
                         <div>
                             <h5>{{item.name}}</h5>
                             <p><span>{{item.album.name}}</span>-<span>{{item.artists[0].name}}</span></p>
+                        </div>
+                        <span></span>
+                    </router-link>
+                    
+                </li>
+              </template>
+              <template v-for="(item,index) in songs.songs" v-if="albumsBool">
+                <li>
+                    <span class="num">{{index}}</span>
+                    <router-link to="">
+                       
+                        <div>
+                            <h5>{{item.name}}</h5>
+                            <p><span>{{songs.album.artist.name}}</span></p>
                         </div>
                         <span></span>
                     </router-link>
@@ -41,11 +64,19 @@ export default {
        return{
            result:{},
            showLoading:true,
+           songs:{},
+           albumsBool:false,
        }
    },
    created(){
-       this.getData1();
+       
        this.$store.commit("showTabber");
+       if(this.$route.path.indexOf('albums') != -1){
+           this.albumsBool = true;
+           this.getAlbums();
+       }else{
+           this.getSongMenu();
+       }
    },
   
    methods:{
@@ -54,10 +85,22 @@ export default {
           console.log(this.result)
           this.showLoading = false;
        },
-       getData1(){
+       callback1(res){
+          this.songs = res;
+          console.log(this.songs)
+          this.showLoading = false;
+       },
+       //获取歌单
+       getSongMenu(){
            var self = this;
            self.getData('/playlist/detail',this.callback,{id:this.$route.params.id})
+       },
+       //获取专辑
+       getAlbums(){
+            var self = this;
+            self.getData('/album',this.callback1,{id:this.$route.params.id})
        }
+
    }
 }
 </script>
@@ -76,12 +119,24 @@ export default {
                 margin-right: .4rem /* 30/75 */;
             }
             section{
+                width: 100%;
                 @include fj()
+                
+                align-items:center;
                 color:#fff;
                 div{
                     display: flex;
-                    align-items: center;
-                    justify-content: flex-start;
+                  
+                   text-align: left;
+                    flex-direction: column;
+                    font-size: 12px;
+                    &:nth-child(2){
+                        flex:1;
+                    }
+                    h5{
+                        margin-bottom: .4rem /* 30/75 */;
+                        font-size: .48rem /* 36/75 */;
+                    }
                 }
             }
         }

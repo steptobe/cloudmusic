@@ -49,7 +49,7 @@ export default {
              this.$router.push('/myMusic');
         } else{
            
-            this.$router.push('/user');
+            this.$router.push('/user/0');
         }
         this.$refs.target.collapse();
       }

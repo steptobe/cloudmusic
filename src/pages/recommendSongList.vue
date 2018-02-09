@@ -100,6 +100,7 @@ export default {
     
     created(){
         this.getRecommendMusic();
+        this.$store.commit("showTabber");
     },
     methods:{
         callback(res) {

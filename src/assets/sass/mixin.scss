@@ -4,6 +4,7 @@ $bc: #f4f6fc;
 $br:#eeeff1;
 $fc:#fff;
 $fontc:#333;
+$a:#627498;
 // 背景图片地址和大小
 @mixin bis($url) {
     background-image: url($url);

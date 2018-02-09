@@ -15,7 +15,7 @@
             </span>
             <p>朋友</p>
         </router-link>
-        <router-link to="/user" :class="{active:options==4}">
+        <router-link to="/user/0" :class="{active:options==4}">
             <span class="tab-icon account-icon"></span>
             <p>账号</p>
         </router-link>

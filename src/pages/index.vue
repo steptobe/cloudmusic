@@ -164,6 +164,7 @@ export default {
     console.log("我是index activated 方法");
     if(!this.$route.meta.isBack || this.isFirstEnter){
        console.log('index加载')
+      
         this.getbanner();
         this.getRecommendSong();
         this.getNewSong();

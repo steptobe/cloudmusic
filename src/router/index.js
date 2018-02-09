@@ -42,7 +42,7 @@ const routes = [{
         component: login
     },
     { //我的
-        path: '/user',
+        path: '/user/:id',
         name: 'account',
         component: account,
         meta: {
@@ -78,12 +78,23 @@ const routes = [{
     //搜索
     {
         path: '/search',
-        component: search
+        component: search,
+        meta: {
+            keepAlive: true, //此组件需要被缓存
+            isBack: false, //用于判断上一个页面是哪个
+        }
     },
     //mv
     {
         path: '/mvDetail/:id',
-        component: mvDetail
+        name: mvDetail,
+        component: mvDetail,
+
+    },
+    {
+        path: '/albums/:id',
+        name: songMenu,
+        component: songMenu,
     }
 ]
 

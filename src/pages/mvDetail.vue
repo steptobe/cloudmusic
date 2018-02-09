@@ -116,12 +116,13 @@ export default {
       hotComments: [],
       mvComment: [],
       showLoading:true,
+      
     };
   },
   created() {
     this.getMvData();
     this.getMvComment();
-     this.$store.commit("hideTabber");
+    this.$store.commit("hideTabber");
   },
   computed: {},
   methods: {
