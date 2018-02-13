@@ -16,6 +16,7 @@ const songMenu = resolve => require(['../pages/songMenu.vue'], resolve)
 const play = resolve => require(['../pages/play.vue'], resolve);
 const search = resolve => require(['../pages/search.vue'], resolve);
 const mvDetail = resolve => require(['../pages/mvDetail.vue'], resolve);
+const singer = resolve => require(['../pages/singer.vue'], resolve);
 const routes = [{
         path: '/',
         redirect: '/index',
@@ -95,6 +96,11 @@ const routes = [{
         path: '/albums/:id',
         name: songMenu,
         component: songMenu,
+    },
+    {
+        path: '/singer/:id',
+        name: singer,
+        component: singer,
     }
 ]
 

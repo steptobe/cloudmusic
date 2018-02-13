@@ -73,7 +73,7 @@
               <ul class="artists" v-if="selected == 100">
                 <template  v-if="finalData.artistCount != 0">
                   <li v-for="item in finalData.artists" >
-                    <router-link to="">
+                    <router-link :to="'/singer/' + item.id">
                       <img v-lazy="item.img1v1Url" alt="">
                       <p>{{item.name}}</p>
                     </router-link>
@@ -224,7 +224,7 @@ export default {
   },
   activated() {
     console.log("我是user activated 方法");
-     alert(this.isFirstEnter +"11"+ !this.$route.meta.isBack)
+ 
     // this.$route.meta.isBack=false
     // this.isFirstEnter=false;
   },
